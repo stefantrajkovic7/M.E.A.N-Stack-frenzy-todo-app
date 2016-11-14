@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-require('rxjs/add/operator/map');
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+require("rxjs/add/operator/map");
 var TodoService = (function () {
     function TodoService(_http) {
         this._http = _http;
@@ -19,11 +19,27 @@ var TodoService = (function () {
         return this._http.get('/api/v1/todos')
             .map(function (res) { return res.json(); });
     };
-    TodoService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], TodoService);
+    TodoService.prototype.saveTodo = function (todo) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.post('/api/v1/todo', JSON.stringify(todo), { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
+    TodoService.prototype.updateTodo = function (todo) {
+        var headers = new http_1.Headers();
+        headers.append('Content-Type', 'application/json');
+        return this._http.put('/api/v1/todo/' + todo._id, JSON.stringify(todo), { headers: headers })
+            .map(function (res) { return res.json(); });
+    };
+    TodoService.prototype.deleteTodo = function (id) {
+        return this._http.delete('/api/v1/todo/' + id)
+            .map(function (res) { return res.json(); });
+    };
     return TodoService;
 }());
+TodoService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], TodoService);
 exports.TodoService = TodoService;
 //# sourceMappingURL=todo.service.js.map

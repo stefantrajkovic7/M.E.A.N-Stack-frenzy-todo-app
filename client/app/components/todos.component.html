@@ -3,21 +3,23 @@
   <div class="form-group">
     <input class="form-control input-lg" placeholder="Add Todo..." autofocus #todoText />
     <br>
-    <button class="btn btn-primary btn-block">Create</button>
+    <button (click)="addTodo($event, todoText)" class="btn btn-primary btn-block">Create</button>
   </div>
 </div>
 
 <div class="todo-list">
   <div *ngFor="let todo of todos">
       <div class="col-md-1 todo-margin">
-        <input type="checkbox">
+        <input type="checkbox" [checked]="todo.isCompleted" (click)="updateStatus(todo)">
       </div>
       <div class="col-md-7 todo-margin">
-        {{todo.text}}
+        <span [class.hidden]="todo.isEditMode">{{todo.text}}</span>
+        <input type="text" [class.hidden]="!todo.isEditMode" [value]="todo.text" (keypress)="updateTodoText($event, todo)">
+        <input type="button" class="btn btn-warning" [class.hidden]="!todo.isEditMode" value="Cancel" (click)="setEditState(todo, false)">
       </div>
       <div class="col-md-4 todo-margin btns">
-        <input type="button" class="btn btn-danger pull-right" value="Delete">
-        <input type="button" class="btn btn-success pull-right" value="Edit">
+        <input (click)="deleteTodo(todo)" type="button" class="btn btn-danger pull-right" value="Delete">
+        <input [class.disabled]="todo.isCompleted" (click)="setEditState(todo, true)" type="button" class="btn btn-success pull-right" value="Edit">
       </div>
   </div>
 </div>
