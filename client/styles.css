@@ -5,3 +5,9 @@ body {
 .uppercase {
   text-transform: uppercase;
 }
+.btn-success {
+  margin-right: 10px;
+}
+.todo-margin {
+  margin-top: 10px;
+}
